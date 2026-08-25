@@ -14,7 +14,8 @@
     "gallery:ingest": "node scripts/gallery-ingest.mjs",
     "assets": "npm run assets:industries && npm run assets:photos",
     "check:no-public-pdfs": "node scripts/check-no-public-pdfs.mjs",
-    "check": "npm run check:no-public-pdfs && npm run typecheck && npm run lint && npm run build"
+    "check:retired-figures": "node scripts/check-retired-figures.mjs",
+    "check": "npm run check:no-public-pdfs && npm run check:retired-figures && npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",

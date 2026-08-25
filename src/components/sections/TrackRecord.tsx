@@ -5,7 +5,6 @@ import { company } from "@/lib/site";
 import { trackRecordStats, trackRecordPublication } from "@/data/track-record";
 import { Container, Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Counter } from "@/components/ui/Counter";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
@@ -57,8 +56,27 @@ export function TrackRecord({ locale, dict }: { locale: Locale; dict: Dictionary
                    colour of the border. */
                 className="bg-bg p-7 lg:p-8"
               >
+                {/* The figure is present at first paint and never animates.
+
+                    docs/motion-system.md §3.5 and design decision L-39 are
+                    explicit: statistics do not count up. "A number that animates
+                    from zero is a decorative device that delays the fact and, on
+                    a page whose credibility rests on its figures, actively
+                    undermines it." This section exists to be believed, so the
+                    number arrives with the block rather than performing its way
+                    to the truth.
+
+                    Rendered as one text run — "200+", not a value node plus a
+                    suffix node — so it is announced as a single figure. The
+                    aria-hidden / sr-only pair this replaces existed solely to
+                    stop a screen reader reading every intermediate number during
+                    the count; with no count it has nothing left to solve.
+
+                    Entry motion is the surrounding <Reveal>: the structural
+                    block fade every other section uses, which already honours
+                    prefers-reduced-motion through the global rule. */}
                 <dd className="text-stat numerals-latin text-fg-strong">
-                  <Counter value={stat.value} suffix={stat.suffix ?? ""} />
+                  {`${stat.value.toLocaleString("en-US")}${stat.suffix}`}
                 </dd>
                 <dt className="mt-3">
                   <span className="block text-stat-label font-bold text-fg">
