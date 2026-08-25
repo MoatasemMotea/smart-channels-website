@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(53 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(282 51% 23%)"/>
+      <stop offset="100%" stop-color="hsl(316 77% 21%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="84%" cy="13%" r="70%">
+      <stop offset="0%" stop-color="hsl(316 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><polygon points="1351.9,0 1395.7,0 1425.8,1000 1302,1000" fill="hsl(322 93% 62% / 0.238)"/><polygon points="957.9,0 975.8,0 1010,1000 912.1,1000" fill="hsl(288 43% 56% / 0.35)"/><polygon points="905.8,0 966.3,0 1007.6,1000 867.1,1000" fill="hsl(288 43% 56% / 0.391)"/><polygon points="134.4,0 208.1,0 241,1000 87.3,1000" fill="hsl(322 93% 62% / 0.336)"/><polygon points="611.3,0 713.2,0 743.2,1000 561.3,1000" fill="hsl(288 43% 56% / 0.134)"/><polygon points="285.4,0 380,0 411.1,1000 236.5,1000" fill="hsl(288 43% 56% / 0.238)"/><polygon points="1227.6,0 1278.3,0 1323.2,1000 1192.5,1000" fill="hsl(322 93% 62% / 0.211)"/><polygon points="996.6,0 1027.8,0 1070.4,1000 959.2,1000" fill="hsl(288 43% 56% / 0.25)"/><polygon points="1534.4,0 1608.5,0 1636.6,1000 1482.5,1000" fill="hsl(288 43% 56% / 0.319)"/><polygon points="427.6,0 503.8,0 544.9,1000 388.7,1000" fill="hsl(322 93% 62% / 0.286)"/><polygon points="1002.6,0 1042.5,0 1074.9,1000 955,1000" fill="hsl(288 43% 56% / 0.274)"/><polygon points="1317.7,0 1414.2,0 1447.7,1000 1271.2,1000" fill="hsl(288 43% 56% / 0.238)"/><polygon points="1265.1,0 1305,0 1337.3,1000 1217.4,1000" fill="hsl(322 93% 62% / 0.206)"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(41 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(304 51% 25%)"/>
+      <stop offset="100%" stop-color="hsl(338 77% 23%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="68%" r="70%">
+      <stop offset="0%" stop-color="hsl(338 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><path d="M 212.9 140.6 l 97.1 56.3 l 0 97.1 l -97.1 -56.3 Z" fill="none" stroke="hsl(322 93% 66% / 0.632)" stroke-width="1.2"/><path d="M 884.9 106.4 l 78.7 45.6 l 0 78.7 l -78.7 -45.6 Z" fill="none" stroke="hsl(288 43% 60% / 0.666)" stroke-width="1.2"/><path d="M 854.4 757.9 l 61.7 35.8 l 0 61.7 l -61.7 -35.8 Z" fill="none" stroke="hsl(288 43% 60% / 0.474)" stroke-width="1.2"/><path d="M 465.1 677.9 l 83.2 48.3 l 0 83.2 l -83.2 -48.3 Z" fill="none" stroke="hsl(288 43% 60% / 0.314)" stroke-width="1.2"/><path d="M 1153.6 312.2 l 104.4 60.6 l 0 104.4 l -104.4 -60.6 Z" fill="none" stroke="hsl(288 43% 60% / 0.35)" stroke-width="1.2"/><path d="M 575.3 316.1 l 81.5 47.3 l 0 81.5 l -81.5 -47.3 Z" fill="none" stroke="hsl(322 93% 66% / 0.349)" stroke-width="1.2"/><path d="M 949.9 67.2 l 59 34.2 l 0 59 l -59 -34.2 Z" fill="none" stroke="hsl(288 43% 60% / 0.308)" stroke-width="1.2"/><path d="M 881.1 846.4 l 101.6 58.9 l 0 101.6 l -101.6 -58.9 Z" fill="none" stroke="hsl(288 43% 60% / 0.34)" stroke-width="1.2"/><path d="M 1363.3 355.2 l 119.6 69.4 l 0 119.6 l -119.6 -69.4 Z" fill="none" stroke="hsl(288 43% 60% / 0.682)" stroke-width="1.2"/><path d="M 512.1 33.3 l 110.6 64.1 l 0 110.6 l -110.6 -64.1 Z" fill="none" stroke="hsl(288 43% 60% / 0.415)" stroke-width="1.2"/><path d="M 34.3 525.2 l 108.7 63 l 0 108.7 l -108.7 -63 Z" fill="none" stroke="hsl(322 93% 66% / 0.635)" stroke-width="1.2"/><path d="M 1477.4 208.8 l 128.6 74.6 l 0 128.6 l -128.6 -74.6 Z" fill="none" stroke="hsl(288 43% 60% / 0.332)" stroke-width="1.2"/><path d="M 1296.6 567.5 l 43.8 25.4 l 0 43.8 l -43.8 -25.4 Z" fill="none" stroke="hsl(288 43% 60% / 0.452)" stroke-width="1.2"/><path d="M 1290.3 625 l 46.4 26.9 l 0 46.4 l -46.4 -26.9 Z" fill="none" stroke="hsl(288 43% 60% / 0.522)" stroke-width="1.2"/><path d="M 1140.8 475.9 l 125.6 72.8 l 0 125.6 l -125.6 -72.8 Z" fill="none" stroke="hsl(288 43% 60% / 0.386)" stroke-width="1.2"/><path d="M 1211.7 561.1 l 89.7 52 l 0 89.7 l -89.7 -52 Z" fill="none" stroke="hsl(322 93% 66% / 0.421)" stroke-width="1.2"/><path d="M 1141.6 603.3 l 85.7 49.7 l 0 85.7 l -85.7 -49.7 Z" fill="none" stroke="hsl(288 43% 60% / 0.633)" stroke-width="1.2"/><path d="M 1492.7 897.2 l 56.9 33 l 0 56.9 l -56.9 -33 Z" fill="none" stroke="hsl(288 43% 60% / 0.382)" stroke-width="1.2"/><path d="M 1325 930.6 l 120.9 70.1 l 0 120.9 l -120.9 -70.1 Z" fill="none" stroke="hsl(288 43% 60% / 0.363)" stroke-width="1.2"/><path d="M 554.7 715.1 l 98.6 57.2 l 0 98.6 l -98.6 -57.2 Z" fill="none" stroke="hsl(288 43% 60% / 0.672)" stroke-width="1.2"/><path d="M 580.2 909.4 l 63.7 36.9 l 0 63.7 l -63.7 -36.9 Z" fill="none" stroke="hsl(322 93% 66% / 0.416)" stroke-width="1.2"/><path d="M 916 692.9 l 53.5 31 l 0 53.5 l -53.5 -31 Z" fill="none" stroke="hsl(288 43% 60% / 0.394)" stroke-width="1.2"/><path d="M 568.6 635.4 l 43.3 25.1 l 0 43.3 l -43.3 -25.1 Z" fill="none" stroke="hsl(288 43% 60% / 0.512)" stroke-width="1.2"/><path d="M 543.4 530 l 112.1 65 l 0 112.1 l -112.1 -65 Z" fill="none" stroke="hsl(288 43% 60% / 0.438)" stroke-width="1.2"/><path d="M 848.6 339.3 l 119.7 69.4 l 0 119.7 l -119.7 -69.4 Z" fill="none" stroke="hsl(288 43% 60% / 0.407)" stroke-width="1.2"/><path d="M 1037.7 211.8 l 114.8 66.6 l 0 114.8 l -114.8 -66.6 Z" fill="none" stroke="hsl(322 93% 66% / 0.353)" stroke-width="1.2"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

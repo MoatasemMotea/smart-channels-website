@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(271 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(292 51% 22%)"/>
+      <stop offset="100%" stop-color="hsl(326 77% 20%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="76%" cy="80%" r="70%">
+      <stop offset="0%" stop-color="hsl(326 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><line x1="119" y1="0" x2="119" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="238" y1="0" x2="238" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="357" y1="0" x2="357" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="476" y1="0" x2="476" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="595" y1="0" x2="595" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="714" y1="0" x2="714" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="833" y1="0" x2="833" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="952" y1="0" x2="952" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="1071" y1="0" x2="1071" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="1190" y1="0" x2="1190" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="1309" y1="0" x2="1309" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="1428" y1="0" x2="1428" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="1547" y1="0" x2="1547" y2="1000" stroke="hsl(288 43% 64% / 0.384)" stroke-width="1"/><line x1="0" y1="119" x2="1600" y2="119" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="238" x2="1600" y2="238" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="357" x2="1600" y2="357" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="476" x2="1600" y2="476" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="595" x2="1600" y2="595" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="714" x2="1600" y2="714" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="833" x2="1600" y2="833" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><line x1="0" y1="952" x2="1600" y2="952" stroke="hsl(288 43% 64% / 0.288)" stroke-width="1"/><circle cx="1547" cy="476" r="5.1" fill="hsl(322 93% 56% / 0.92)"/><circle cx="357" cy="238" r="5.4" fill="hsl(322 93% 56% / 0.92)"/><circle cx="833" cy="833" r="4" fill="hsl(322 93% 56% / 0.92)"/><circle cx="714" cy="238" r="5.4" fill="hsl(322 93% 56% / 0.92)"/><circle cx="119" cy="833" r="4" fill="hsl(322 93% 56% / 0.92)"/><circle cx="1190" cy="119" r="3.6" fill="hsl(322 93% 56% / 0.92)"/><circle cx="833" cy="714" r="6" fill="hsl(322 93% 56% / 0.92)"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

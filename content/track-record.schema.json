@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Smart Channels track record",
+  "type": "object",
+  "required": ["publication", "publicationYear", "stats"],
+  "properties": {
+    "_readme": { "type": "array", "items": { "type": "string" } },
+    "publication": { "$ref": "#/$defs/localized" },
+    "publicationYear": { "type": "integer", "minimum": 2000, "maximum": 2100 },
+    "stats": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "value", "suffix", "asOf"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "enum": ["projects", "years", "sectors", "venues"] },
+          "value": { "type": "integer", "minimum": 0 },
+          "suffix": { "enum": ["", "+"] },
+          "asOf": { "type": "integer", "minimum": 2000, "maximum": 2100 }
+        }
+      }
+    },
+    "retired": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "value", "suffix", "retiredIn", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "value": { "type": "integer" },
+          "suffix": { "enum": ["", "+"] },
+          "retiredIn": { "type": "integer" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "localized": {
+      "type": "object",
+      "required": ["en", "ar"],
+      "additionalProperties": false,
+      "properties": { "en": { "type": "string" }, "ar": { "type": "string" } }
+    }
+  }
+}

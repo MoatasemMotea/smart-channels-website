@@ -1,0 +1,45 @@
+{
+  "name": "smart-channels-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Corporate website for Smart Channels (القنوات الذكية) — Saudi technology and systems integration company.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "assets:photos": "node scripts/optimize-images.mjs",
+    "assets:industries": "node scripts/generate-industry-art.mjs",
+    "gallery:ingest": "node scripts/gallery-ingest.mjs",
+    "assets": "npm run assets:industries && npm run assets:photos",
+    "check:no-public-pdfs": "node scripts/check-no-public-pdfs.mjs",
+    "check": "npm run check:no-public-pdfs && npm run typecheck && npm run lint && npm run build"
+  },
+  "dependencies": {
+    "lucide-react": "^1.31.0",
+    "next": "^16.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "resend": "^6.20.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/eslintrc": "^3.3.6",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^9.27.0",
+    "eslint-config-next": "^16.3.1",
+    "playwright": "^1.62.1",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

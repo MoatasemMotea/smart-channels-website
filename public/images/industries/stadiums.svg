@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(12 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(288 51% 27%)"/>
+      <stop offset="100%" stop-color="hsl(322 77% 25%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="100%" cy="17%" r="70%">
+      <stop offset="0%" stop-color="hsl(322 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><ellipse cx="1092.3" cy="440.3" rx="70" ry="43.4" fill="none" stroke="hsl(322 93% 62% / 0.72)" stroke-width="1.6"/><ellipse cx="1092.3" cy="440.3" rx="126.5" ry="78.4" fill="none" stroke="hsl(288 43% 56% / 0.672)" stroke-width="1.52"/><ellipse cx="1092.3" cy="440.3" rx="172.9" ry="107.2" fill="none" stroke="hsl(288 43% 56% / 0.624)" stroke-width="1.44"/><ellipse cx="1092.3" cy="440.3" rx="230.4" ry="142.9" fill="none" stroke="hsl(322 93% 62% / 0.576)" stroke-width="1.36"/><ellipse cx="1092.3" cy="440.3" rx="292.8" ry="181.5" fill="none" stroke="hsl(288 43% 56% / 0.528)" stroke-width="1.28"/><ellipse cx="1092.3" cy="440.3" rx="346.4" ry="214.7" fill="none" stroke="hsl(288 43% 56% / 0.48)" stroke-width="1.2"/><ellipse cx="1092.3" cy="440.3" rx="414.1" ry="256.8" fill="none" stroke="hsl(322 93% 62% / 0.432)" stroke-width="1.12"/><ellipse cx="1092.3" cy="440.3" rx="421.4" ry="261.2" fill="none" stroke="hsl(288 43% 56% / 0.384)" stroke-width="1.04"/><ellipse cx="1092.3" cy="440.3" rx="512.4" ry="317.7" fill="none" stroke="hsl(288 43% 56% / 0.336)" stroke-width="0.96"/><ellipse cx="1092.3" cy="440.3" rx="530.6" ry="329" fill="none" stroke="hsl(322 93% 62% / 0.288)" stroke-width="0.88"/><ellipse cx="1092.3" cy="440.3" rx="607" ry="376.4" fill="none" stroke="hsl(288 43% 56% / 0.24)" stroke-width="0.8"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

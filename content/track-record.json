@@ -1,0 +1,61 @@
+{
+  "$schema": "./track-record.schema.json",
+  "_readme": [
+    "Smart Channels track record — the single source for every headline figure",
+    "on the site.",
+    "",
+    "This file is CONTENT, not source code. To update a figure when a new",
+    "approved profile is published:",
+    "",
+    "  1. Change `value` (and `suffix`, if the profile's changed).",
+    "  2. Set `asOf` to the year the new profile states the figure as true.",
+    "  3. Update `publication` and `publicationYear` to name the new edition.",
+    "",
+    "That is the whole job. No component, translation file, layout or style is",
+    "touched, and the counters, labels, ordering and the attribution line under",
+    "the figures all follow. Adding or removing a figure is an entry here plus",
+    "its label in both dictionaries.",
+    "",
+    "EVERY FIGURE MUST BE QUOTED, NEVER DERIVED. An earlier build counted two",
+    "of them from src/data/ — a count of what happens to be published on the",
+    "site is a different claim from the company's own record, and the two",
+    "drifted apart the moment either file changed.",
+    "",
+    "RETIRED FIGURES are listed at the bottom and enforced by the build: any",
+    "attempt to publish one in the slot it was wrong in fails with an",
+    "explanation. They are not merely documented, because a comment does not",
+    "stop anyone."
+  ],
+
+  "publication": {
+    "en": "Smart Channels Company Profile 2026",
+    "ar": "الملف التعريفي للقنوات الذكية 2026"
+  },
+  "publicationYear": 2026,
+
+  "stats": [
+    { "id": "projects", "value": 200, "suffix": "+", "asOf": 2026 },
+    { "id": "years",    "value": 7,   "suffix": "",  "asOf": 2026 },
+    { "id": "sectors",  "value": 16,  "suffix": "+", "asOf": 2026 },
+    { "id": "venues",   "value": 100, "suffix": "+", "asOf": 2026 }
+  ],
+
+  "retired": [
+    {
+      "id": "projects", "value": 85, "suffix": "+", "retiredIn": 2026,
+      "note": "Superseded project count. The approved 2026 figure is 200+."
+    },
+    {
+      "id": "projects", "value": 87, "suffix": "", "retiredIn": 2026,
+      "note": "Superseded engagement count from an early draft."
+    },
+    {
+      "id": "years", "value": 6, "suffix": "", "retiredIn": 2026,
+      "note": "Superseded duration. The approved 2026 figure is 7."
+    },
+    {
+      "id": "sectors", "value": 20, "suffix": "+", "retiredIn": 2026,
+      "note": "Superseded sector count. The approved 2026 figure is 16+."
+    }
+  ]
+}

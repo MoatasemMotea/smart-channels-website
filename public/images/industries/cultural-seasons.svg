@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(146 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(272 51% 29%)"/>
+      <stop offset="100%" stop-color="hsl(306 77% 27%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="6%" cy="43%" r="70%">
+      <stop offset="0%" stop-color="hsl(306 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><path d="M 93.7 974.5 A 180 180 0 0 1 453.7 974.5" fill="none" stroke="hsl(288 43% 58% / 0.72)" stroke-width="2"/><path d="M 39.8 974.1 A 270 270 0 0 1 579.8 974.1" fill="none" stroke="hsl(322 93% 64% / 0.662)" stroke-width="1.86"/><path d="M -52.8 943.1 A 360 360 0 0 1 667.2 943.1" fill="none" stroke="hsl(288 43% 58% / 0.605)" stroke-width="1.72"/><path d="M -213.5 974.6 A 450 450 0 0 1 686.5 974.6" fill="none" stroke="hsl(322 93% 64% / 0.547)" stroke-width="1.58"/><path d="M -272.4 943 A 540 540 0 0 1 807.6 943" fill="none" stroke="hsl(288 43% 58% / 0.49)" stroke-width="1.44"/><path d="M -404.9 960.7 A 630 630 0 0 1 855.1 960.7" fill="none" stroke="hsl(322 93% 64% / 0.432)" stroke-width="1.3"/><path d="M -413.4 933.7 A 720 720 0 0 1 1026.6 933.7" fill="none" stroke="hsl(288 43% 58% / 0.374)" stroke-width="1.16"/><path d="M -481.7 923.8 A 810 810 0 0 1 1138.3 923.8" fill="none" stroke="hsl(322 93% 64% / 0.317)" stroke-width="1.02"/><path d="M -564.4 967.1 A 900 900 0 0 1 1235.6 967.1" fill="none" stroke="hsl(288 43% 58% / 0.259)" stroke-width="0.88"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

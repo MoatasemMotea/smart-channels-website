@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="presentation" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" gradientTransform="rotate(259 0.5 0.5)">
+      <stop offset="0%" stop-color="hsl(301 51% 29%)"/>
+      <stop offset="100%" stop-color="hsl(335 77% 27%)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="26%" cy="26%" r="70%">
+      <stop offset="0%" stop-color="hsl(335 93% 52% / 0.4)"/>
+      <stop offset="100%" stop-color="hsl(0 0% 0% / 0)"/>
+    </radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="hsl(280 30% 4% / 0)"/>
+      <stop offset="55%" stop-color="hsl(280 30% 4% / 0.08)"/>
+      <stop offset="100%" stop-color="hsl(280 30% 4% / 0.38)"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g><path d="M 0 280 L 73.2 280 L 91.9 211.8 L 110.6 310.7 L 129.4 280 L 231.8 280 L 245.7 195.7 L 259.7 317.9 L 273.7 280 L 414.7 280 L 435.9 172.2 L 457.1 328.5 L 478.3 280 L 551.4 280 L 570.5 153.2 L 589.6 337 L 608.8 280 L 686.4 280 L 703.6 193.5 L 720.8 318.9 L 738 280 L 858.4 280 L 873.8 152.6 L 889.3 337.3 L 904.7 280 L 995 280 L 1015.9 237.2 L 1036.8 299.2 L 1057.7 280 L 1212.4 280 L 1236.3 159.6 L 1260.1 334.2 L 1283.9 280 L 1416.5 280 L 1435.8 176.8 L 1455.1 326.5 L 1474.5 280 L 1623.5 280 L 1643.2 169.2 L 1662.9 329.8 L 1682.7 280" fill="none" stroke="hsl(288 43% 58% / 0.48)" stroke-width="1.3" stroke-linejoin="round"/><path d="M 0 500 L 142.7 500 L 159.4 394.4 L 176 547.5 L 192.6 500 L 313.2 500 L 326.7 382.9 L 340.2 552.7 L 353.6 500 L 492.5 500 L 508 389.6 L 523.5 549.7 L 539 500 L 687.6 500 L 709 437.1 L 730.4 528.3 L 751.8 500 L 836.3 500 L 856.6 458.9 L 876.9 518.5 L 897.2 500 L 1034.1 500 L 1054.4 411.9 L 1074.8 539.7 L 1095.1 500 L 1234.7 500 L 1257.5 376.8 L 1280.2 555.5 L 1302.9 500 L 1451.6 500 L 1474.6 444.5 L 1497.5 525 L 1520.4 500 L 1657.5 500 L 1672.5 398.5 L 1687.6 545.7 L 1702.7 500" fill="none" stroke="hsl(322 93% 64% / 0.92)" stroke-width="2" stroke-linejoin="round"/><path d="M 0 720 L 104.6 720 L 123.3 674.1 L 142 740.7 L 160.7 720 L 280.9 720 L 300.5 601.5 L 320.1 773.3 L 339.7 720 L 492.6 720 L 513.1 605.8 L 533.5 771.4 L 554 720 L 689.3 720 L 713 604.2 L 736.7 772.1 L 760.5 720 L 871.7 720 L 888.1 662.9 L 904.5 745.7 L 920.8 720 L 1006.7 720 L 1021.6 674.1 L 1036.5 740.6 L 1051.5 720 L 1127 720 L 1148.5 632.6 L 1170 759.4 L 1191.5 720 L 1338.2 720 L 1354.1 601.2 L 1369.9 773.5 L 1385.7 720 L 1500.4 720 L 1523.3 598.7 L 1546.2 774.6 L 1569.1 720 L 1697.9 720 L 1717.9 621.6 L 1737.9 764.3 L 1757.9 720" fill="none" stroke="hsl(288 43% 58% / 0.48)" stroke-width="1.3" stroke-linejoin="round"/></g>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <!-- Bottom shade guarantees contrast for the industry title, which is
+       bottom-aligned in the card, independent of what the motif drew there. -->
+  <rect width="1600" height="1000" fill="url(#shade)"/>
+</svg>

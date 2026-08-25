@@ -1,0 +1,1117 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   SMART CHANNELS — DESIGN SYSTEM
+   =============================================================================
+
+   Brand colours are sampled directly from the supplied logo, not guessed:
+
+     magenta  #D9088C   hsl(322 93% 44%)   primary brand mark
+     purple   #7B388B   hsl(288 43% 38%)   accent dots in the mark
+     ink      #020202                      wordmark
+
+   Both tonal ramps are generated at the logo's exact hue angles so every tint
+   and shade stays recognisably Smart Channels.
+
+   Contrast — every figure below is measured, and the whole set is verified by
+   an automated axe-core pass over both themes, both languages and mobile and
+   desktop viewports (see QA notes in FINAL_PROJECT_REPORT.md):
+
+     white on magenta-600 ............ 4.81:1  AA  (primary button, both themes)
+     magenta-700 on white ............ 6.68:1  AA  (light accent text)
+     magenta-700 on bg-subtle ........ 6.17:1  AA
+     magenta-400 on ink-950 .......... 5.98:1  AA  (dark accent text)
+     fg-muted on white (light) ....... 7.82:1  AAA
+     fg-subtle on bg-subtle (light) .. 4.66:1  AA
+     fg-muted on bg (dark) ............ 7.6:1  AAA
+
+   Two tokens are deliberately *not* the raw brand magenta, because it fails at
+   text sizes on the surface it sits on:
+     - dark theme: magenta-600 is 4.04:1 on ink-950, so the accent is magenta-400
+     - light theme: magenta-600 is 4.44:1 on bg-subtle, so the accent is magenta-700
+   Both are enforced by the semantic --color-accent token, so no component can
+   reintroduce the failing colour by choosing it locally.
+   ========================================================================== */
+
+@theme {
+  /* ---- Brand ramp: magenta (hue 322) ------------------------------------ */
+  --color-magenta-50: #fef0f8;
+  --color-magenta-100: #fbdcef;
+  --color-magenta-200: #f8b9df;
+  --color-magenta-300: #f387c9;
+  --color-magenta-400: #f04fb0;
+  --color-magenta-500: #ea1b98;
+  --color-magenta-600: #d9088c;
+  --color-magenta-700: #b10772;
+  --color-magenta-800: #8b085c;
+  --color-magenta-900: #710b4c;
+  --color-magenta-950: #43062c;
+
+  /* ---- Brand ramp: purple (hue 288) ------------------------------------- */
+  --color-purple-50: #faf3fb;
+  --color-purple-100: #f3e5f6;
+  --color-purple-200: #e7c8ec;
+  --color-purple-300: #d3a1dc;
+  --color-purple-400: #b673c5;
+  --color-purple-500: #9a4fab;
+  --color-purple-600: #7b388b;
+  --color-purple-700: #642d71;
+  --color-purple-800: #4e2559;
+  --color-purple-900: #3a1c42;
+  --color-purple-950: #220f28;
+
+  /* ---- Neutral ramp: charcoal with a violet undertone -------------------
+     Deliberately not pure grey. The faint 290° tint ties the neutrals to the
+     brand so dark and light themes read as one identity. */
+  --color-ink-25: #fbfafc;
+  --color-ink-50: #f7f5f9;
+  --color-ink-100: #efecf2;
+  --color-ink-200: #e0dbe5;
+  --color-ink-300: #c6bfcc;
+  --color-ink-400: #9c93a5;
+  --color-ink-500: #756b7e;
+  --color-ink-600: #574f5e;
+  --color-ink-700: #3e3844;
+  --color-ink-800: #2a252f;
+  --color-ink-850: #201c24;
+  --color-ink-900: #17141a;
+  --color-ink-950: #0e0c11;
+  --color-ink-1000: #08070a;
+
+  /* ---- Status ----------------------------------------------------------- */
+  --color-success-fg: #0f7b52;
+  --color-success-fg-dark: #4ade9f;
+  --color-danger-fg: #c02434;
+  --color-danger-fg-dark: #ff8b96;
+
+  /* ---- Typography -------------------------------------------------------
+     Arial is mandated by the brand guidelines. It is a system font, so there
+     is zero webfont payload and no FOUT/FOIT — a real Core Web Vitals win.
+     Fallbacks are metric-compatible across platforms; Arabic resolves to
+     Arial's Arabic glyphs on macOS/Windows and to Noto/Liberation elsewhere. */
+  --font-sans: Arial, "Helvetica Neue", Helvetica, "Liberation Sans", "Segoe UI",
+    Tahoma, "Noto Sans Arabic", sans-serif;
+  --font-arabic: Arial, Tahoma, "Segoe UI", "Noto Sans Arabic", "Geeza Pro",
+    "Liberation Sans", sans-serif;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.45;
+
+  /* ---- Motion -----------------------------------------------------------
+     A single easing curve across the whole site keeps motion coherent. */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-brand-in: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---- Layout ----------------------------------------------------------- */
+  --spacing-header: 4.5rem;
+  --radius-panel: 0.75rem;
+
+  /* Extra-small breakpoint. Tailwind starts at `sm` (640px), which leaves the
+     320–400px band — still a real slice of Android traffic, and the width at
+     which the header runs out of room — with no way to step sizes down. */
+  --breakpoint-xs: 25.875rem;
+
+}
+
+/* `static` so every token below is emitted even while unused. Tailwind v4
+   tree-shakes unreferenced @theme variables, which would leave Phase 2
+   components reading empty var() values. */
+@theme static {
+  /* ===========================================================================
+     CREATIVE DIRECTION TOKEN LAYER — Phase 1
+     ---------------------------------------------------------------------------
+     ADDITIVE ONLY. No existing token's value changes, so every current section
+     renders byte-identically. These exist for sections built from Phase 2
+     onward; nothing consumes them yet, and that is deliberate.
+
+     Source: docs/creative-direction.md §3–§6, docs/motion-system.md §3.
+
+     NAMESPACE SAFETY — the rule that shapes every name below.
+     Tailwind v4 resolves several utilities from shared theme namespaces:
+       --spacing-*  also backs  max-w-* / w-* / h-*
+       --radius-*   also backs  rounded-*
+     So a token named --spacing-4xl silently redefines `max-w-4xl`, and
+     --radius-md silently redefines `rounded-md`. Both were measured doing
+     exactly that during this phase: max-w-4xl resolved to 32px instead of
+     56rem, and 46 existing `rounded-{sm,md,lg}` usages would have shifted.
+     The spacing scale therefore lives under --space-* (not a Tailwind
+     namespace, so it generates no utilities and can shadow nothing), and the
+     radii are purpose-named rather than t-shirt-sized.
+     ======================================================================== */
+
+  /* ---- Status ramp additions ---------------------------------------------
+     success and danger already exist above, unchanged. warning is the value
+     given in creative-direction.md §3.2. info is NOT in the specification —
+     it is the one genuinely missing token, added as the smallest reasonable
+     value and recorded as an assumption. All four measured. */
+  --color-warning-fg: #8a5a08;        /* 5.92:1 on white, 5.47:1 on bg-subtle */
+  --color-warning-fg-dark: #e0b354;   /* 9.96:1 on bg,    9.33:1 on surface   */
+  --color-info-fg: #1b5fa8;           /* 6.46:1 on white, 5.97:1 on bg-subtle */
+  --color-info-fg-dark: #7cb8f0;      /* 9.24:1 on bg,    8.66:1 on surface   */
+
+  /* ---- Spacing scale — creative-direction.md §5.2 -------------------------
+     One scale; a value not on it is a defect. Consumed as var(--space-lg) or
+     p-[var(--space-lg)]. Deliberately NOT --spacing-* — see NAMESPACE SAFETY. */
+  --space-3xs: 0.25rem;   /*   4px  hairline gaps, icon-to-label            */
+  --space-2xs: 0.5rem;    /*   8px  inline gaps                             */
+  --space-xs: 0.75rem;    /*  12px  tight stacks                            */
+  --space-sm: 1rem;       /*  16px  paragraph rhythm                        */
+  --space-md: 1.25rem;    /*  20px  grid gap, card gap                      */
+  --space-lg: 1.5rem;     /*  24px  card padding, rule-to-content           */
+  --space-xl: 2rem;       /*  32px  component separation                    */
+  --space-2xl: 2.5rem;    /*  40px  mobile section head, mobile group gap   */
+  --space-3xl: 3rem;      /*  48px                                          */
+  --space-4xl: 4rem;      /*  64px  section head → body, capability groups  */
+  --space-5xl: 5rem;      /*  80px                                          */
+  --space-6xl: 6rem;      /*  96px                                          */
+  --space-7xl: 8rem;      /* 128px  desktop section vertical padding        */
+  --space-8xl: 10rem;     /* 160px  large editorial breathing room          */
+
+  --space-section-y: var(--space-7xl);          /* 128px desktop */
+  --space-section-y-mobile: 4.5rem;             /*  72px mobile  */
+
+  /* ---- Layout — creative-direction.md §5.1 -------------------------------
+     The live `container-page` utility below still uses 80rem with 1.25–2.5rem
+     gutters and is intentionally untouched: adopting 1320px/60px reflows every
+     existing section, which belongs to Phase 2. */
+  --container-wide: 82.5rem;         /* 1320px content max-width */
+  --container-reading: 68ch;         /* body copy measure        */
+  --container-reading-narrow: 58ch;  /* section intro measure    */
+
+  --space-gutter-mobile: 1.25rem;    /* 20px */
+  --space-gutter-tablet: 2.5rem;     /* 40px */
+  --space-gutter-desktop: 3.75rem;   /* 60px */
+
+  --space-grid-gap: 1.25rem;         /* 20px desktop */
+  --space-grid-gap-tablet: 1.125rem; /* 18px */
+  --space-grid-gap-mobile: 0.875rem; /* 14px */
+
+  /* ---- Radius — creative-direction.md §6.1 -------------------------------
+     Capped at 12px; nothing larger. Purpose-named so they cannot shadow
+     Tailwind's rounded-{xs,sm,md,lg,xl}. --radius-panel (12px) already exists
+     above and serves the card case, so it is reused rather than duplicated. */
+  --radius-tag: 0.1875rem;    /*  3px  mono tags, indices */
+  --radius-chip: 0.375rem;    /*  6px  chips, badges      */
+  --radius-control: 0.5rem;   /*  8px  buttons, inputs    */
+  --radius-pill: 62.4375rem;  /* genuinely pill-shaped controls only */
+
+  /* ---- Rule and focus geometry ------------------------------------------
+     Focus colour comes from --color-focus, already theme-bound. */
+  --border-hairline: 1px;
+  --border-rule: 2px;         /* the brand rule; pull-quote edges */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* ---- Typography — creative-direction.md §4.2 / §4.3 --------------------
+     Fluid steps hit the specification's own anchors: display-1 is 68px at a
+     720px viewport and 92px at 1200px, and so on down. Everything below h3 is
+     fixed by design — if body copy needs resizing, the container is wrong. */
+  --text-display-1: clamp(3.125rem, 2rem + 5vw, 5.75rem);
+  --text-display-1--line-height: 0.96;
+  --text-display-1--letter-spacing: -0.036em;
+  --text-display-1--font-weight: 700;
+
+  --text-display-2: clamp(2.125rem, 1.6875rem + 2.92vw, 3.875rem);
+  --text-display-2--line-height: 1.04;
+  --text-display-2--letter-spacing: -0.028em;
+  --text-display-2--font-weight: 700;
+
+  --text-h1: clamp(1.875rem, 1.75rem + 1.67vw, 3rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.024em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.8125rem, 1.375rem + 1.67vw, 2.625rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.1875rem, 1.125rem + 0.42vw, 1.4375rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 1.0625rem;          /* 17px card title */
+  --text-h4--line-height: 1.32;
+  --text-h4--letter-spacing: -0.005em;
+  --text-h4--font-weight: 700;
+
+  --text-body-lg: 1.0625rem;     /* 17px section intro */
+  --text-body-lg--line-height: 1.6;
+
+  --text-body-base: 1rem;        /* 16px default */
+  --text-body-base--line-height: 1.62;
+
+  --text-body-sm: 0.90625rem;    /* 14.5px card copy */
+  --text-body-sm--line-height: 1.55;
+
+  --text-label: 0.8125rem;       /* 13px form label */
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 700;
+
+  --text-nav: 0.90625rem;        /* 14.5px navigation */
+  --text-nav--line-height: 1.4;
+  --text-nav--font-weight: 700;
+
+  --text-stat: clamp(2.5rem, 2rem + 2.1vw, 3.5rem);  /* 40 → 56px */
+  --text-stat--line-height: 1;
+  --text-stat--letter-spacing: -0.02em;
+  --text-stat--font-weight: 700;
+
+  --text-stat-label: 0.8125rem;  /* 13px */
+  --text-stat-label--line-height: 1.4;
+  --text-stat-label--letter-spacing: 0.02em;
+
+  /* The specification layer: instrumentation, not a second identity. Never a
+     sentence, never above 13px, never --color-fg-strong. */
+  --text-eyebrow: 0.65625rem;    /* 10.5px */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.18em;
+
+  --text-meta: 0.6875rem;        /* 11px */
+  --text-meta--line-height: 1.5;
+  --text-meta--letter-spacing: 0.13em;
+
+  --text-brandline: 0.875rem;    /* 14px */
+  --text-brandline--line-height: 1.3;
+  --text-brandline--letter-spacing: 0.34em;
+  --text-brandline--font-weight: 700;
+
+  /* Mono stack for the specification layer. No new dependency — a system stack
+     exactly like --font-sans. Nothing uses `font-mono` today, so this is inert
+     until a Phase 2 component asks for it. */
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* ---- Motion — motion-system.md §3 --------------------------------------
+     Durations and easings only. Nothing is animated in this phase. Each maps to
+     a category in the specification so a component picks a semantic duration
+     rather than a number. */
+  --motion-micro: 120ms;         /* interaction feedback, §3.3          */
+  --motion-fast: 180ms;          /* nav ground fade, §2.6               */
+  --motion-standard: 320ms;      /* navigation, §3.4                    */
+  --motion-slow: 520ms;          /* structural + editorial entry, §3.2  */
+  --motion-ambient: 3200ms;      /* node pulse, §2.3 (adjusted from 2.4s) */
+  --motion-stagger: 60ms;        /* structural sibling stagger, §3.2    */
+  --motion-stagger-label: 120ms; /* hero label entry, §2.5              */
+
+  /* --ease-brand / --ease-brand-in already exist above, unchanged. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* interaction, §3.3    */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);        /* navigation out, §3.4 */
+  --ease-ambient: linear;                         /* ambient never eases  */
+}
+
+/* =============================================================================
+   SEMANTIC TOKENS
+   -----------------------------------------------------------------------------
+   Components consume only these. Swapping a theme rebinds the semantic layer;
+   no component needs a dark: variant for colour, which keeps the markup clean
+   and makes it impossible for one component to drift off-palette.
+   ========================================================================== */
+
+:root,
+:root:not([data-theme="dark"]) [data-env="bright"] {
+  color-scheme: light;
+
+  --color-bg: #ffffff;
+  --color-bg-subtle: var(--color-ink-50);
+  --color-bg-inset: var(--color-ink-100);
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-overlay: rgb(255 255 255 / 0.86);
+
+  --color-fg: var(--color-ink-900);
+  --color-fg-strong: var(--color-ink-950);
+  /* One step darker than the obvious choice, and deliberately so. ink-400 as
+     the subtle tone measured 2.7–2.9:1 on these backgrounds — a real AA
+     failure found by the axe audit, not a theoretical one. ink-500 clears 4.5:1
+     on white and on bg-subtle, and moving muted to ink-600 keeps a legible two
+     step hierarchy rather than collapsing both onto one value. */
+  --color-fg-muted: var(--color-ink-600);
+  /* Not ink-500. ink-500 clears 4.5:1 on white (5.05) and on bg-subtle (4.66)
+     — which is as far as the original check went — but lands at 4.31:1 on
+     bg-inset, and bg-inset is a real surface that real components sit on. axe
+     found it on the rendered page. #6d6376 is three steps darker: 4.86:1 on
+     bg-inset with genuine headroom rather than a 4.51 squeak, while staying a
+     clear step lighter than fg-muted (6.68:1 there), so the three-level
+     hierarchy is intact. */
+  --color-fg-subtle: #6d6376;
+  --color-fg-onbrand: #ffffff;
+
+  --color-border: var(--color-ink-200);
+  --color-border-strong: var(--color-ink-300);
+  --color-border-brand: color-mix(in oklab, var(--color-magenta-600) 34%, transparent);
+
+  /* magenta-700, not the raw brand magenta-600. On white magenta-600 is 4.81:1
+     and passes, but on bg-subtle it drops to 4.44:1 and fails — and accent text
+     appears on both. magenta-700 clears AA on every surface (6.17:1 worst
+     case). The vivid brand magenta is not lost: it stays on the primary button
+     and in the hero's gradient headline, where it carries the identity and is
+     paired with white at 4.81:1. This mirrors the dark theme, which uses the
+     lighter magenta-400 for the same reason. */
+  --color-accent: var(--color-magenta-700);
+  --color-accent-hover: var(--color-magenta-800);
+  --color-accent-soft: var(--color-magenta-50);
+  --color-accent-2: var(--color-purple-700);
+
+  --color-success: var(--color-success-fg);
+  --color-danger: var(--color-danger-fg);
+
+  --color-focus: var(--color-magenta-600);
+
+  /* Hero / section atmospherics */
+  --glow-1: color-mix(in oklab, var(--color-magenta-500) 20%, transparent);
+  --glow-2: color-mix(in oklab, var(--color-purple-500) 16%, transparent);
+  --grid-line: color-mix(in oklab, var(--color-ink-900) 7%, transparent);
+  --canvas-node: #d9088c;
+  --canvas-node-alt: #7b388b;
+  --canvas-link: 217, 8, 140;
+  /* Lower than the dark theme's: magenta on white carries far more apparent
+     contrast than the same magenta on charcoal, so matching the numbers would
+     make the light hero visibly busier than the dark one. */
+  --canvas-link-alpha: 0.26;
+  --canvas-node-alpha: 0.5;
+
+  --shadow-panel: 0 1px 2px rgb(14 12 17 / 0.05), 0 8px 24px -12px rgb(14 12 17 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(14 12 17 / 0.06), 0 18px 44px -18px rgb(14 12 17 / 0.22);
+
+  /* ---- Creative Direction additions (light) -----------------------------
+     New semantic slots only. Every token above keeps its current value, so
+     nothing that renders today changes. */
+  --color-surface-hover: var(--color-ink-50);
+  --color-border-subtle: var(--color-ink-100);
+  --color-accent-strong: var(--color-magenta-600); /* fill only; white on it is 4.81:1 */
+  --color-warning: var(--color-warning-fg);
+  --color-info: var(--color-info-fg);
+
+  /* Composed so every component states focus identically. */
+  --focus-ring: 0 0 0 var(--focus-ring-width) var(--color-focus);
+}
+
+:root[data-theme="dark"],
+[data-env="deep"] {
+  color-scheme: dark;
+
+  --color-bg: var(--color-ink-950);
+  --color-bg-subtle: var(--color-ink-900);
+  --color-bg-inset: var(--color-ink-1000);
+  --color-surface: var(--color-ink-900);
+  --color-surface-raised: var(--color-ink-850);
+  --color-surface-overlay: rgb(14 12 17 / 0.82);
+
+  --color-fg: #ece9ef;
+  --color-fg-strong: #ffffff;
+  --color-fg-muted: #a79faf;
+  --color-fg-subtle: #857d8d;
+  --color-fg-onbrand: #ffffff;
+
+  --color-border: rgb(255 255 255 / 0.10);
+  --color-border-strong: rgb(255 255 255 / 0.18);
+  --color-border-brand: color-mix(in oklab, var(--color-magenta-400) 42%, transparent);
+
+  /* magenta-400, not -600: only the lighter tint clears 4.5:1 on this bg. */
+  --color-accent: var(--color-magenta-400);
+  --color-accent-hover: var(--color-magenta-300);
+  --color-accent-soft: color-mix(in oklab, var(--color-magenta-600) 16%, transparent);
+  --color-accent-2: var(--color-purple-400);
+
+  --color-success: var(--color-success-fg-dark);
+  --color-danger: var(--color-danger-fg-dark);
+
+  --color-focus: var(--color-magenta-300);
+
+  --glow-1: color-mix(in oklab, var(--color-magenta-500) 26%, transparent);
+  --glow-2: color-mix(in oklab, var(--color-purple-500) 24%, transparent);
+  --grid-line: color-mix(in oklab, #ffffff 6%, transparent);
+  --canvas-node: #f04fb0;
+  --canvas-node-alt: #b673c5;
+  --canvas-link: 240, 79, 176;
+  --canvas-link-alpha: 0.42;
+  --canvas-node-alpha: 0.75;
+
+  --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.5), 0 10px 30px -14px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.55), 0 22px 50px -20px rgb(0 0 0 / 0.8);
+
+  /* ---- Creative Direction additions (dark) ------------------------------ */
+  --color-surface-hover: var(--color-ink-800);
+  --color-border-subtle: rgb(255 255 255 / 0.06);
+  --color-accent-strong: var(--color-magenta-600);
+  --color-warning: var(--color-warning-fg-dark);
+  --color-info: var(--color-info-fg-dark);
+
+  --focus-ring: 0 0 0 var(--focus-ring-width) var(--color-focus);
+}
+
+/* =============================================================================
+   STORYTELLING ENVIRONMENTS
+   -----------------------------------------------------------------------------
+   The homepage is one continuous story, not a stack of independent bands, and
+   its rhythm comes from moving between two environments:
+
+     bright   open, factual, high-legibility — where the reader is asked to
+              read, compare, scan a list, fill in a field.
+     deep     dark, cinematic, atmospheric — where the reader is asked to feel
+              something: the opening, the track record, the AI section, the
+              closing call to action.
+
+   HOW THIS INTERACTS WITH THE USER'S THEME CHOICE — the important part.
+
+   A `deep` section renders dark in *both* themes. That is the point: it is a
+   deliberate change of scene, and inverting it in dark mode would erase the
+   narrative beat entirely.
+
+   A `bright` section does NOT invert in dark mode. Forcing a white section into
+   a dark page would flash the reader, contradict their stated preference, and
+   fight `color-scheme`. Instead it *lifts*: the same dark palette on a raised
+   surface, so the rhythm survives — bright reads as "up and open", deep reads
+   as "down and close" — while the page stays dark throughout.
+
+   Mechanically this works because every semantic token is a custom property and
+   every utility resolves it through `@theme inline`. Redefining the tokens on a
+   section re-themes everything inside it — buttons, borders, cards, muted text
+   — with no `dark:` variants and no component-level knowledge of where it sits.
+
+   Sections opt in via <Section env="deep">; see src/components/ui/Section.tsx.
+   ========================================================================== */
+
+:root[data-theme="dark"] [data-env="bright"] {
+  /* Surfaces only. Everything else is inherited from the dark set above, so
+     these stay in lockstep with it and cannot drift. */
+  --color-bg: var(--color-ink-900);
+  --color-bg-subtle: var(--color-ink-850);
+  --color-bg-inset: var(--color-ink-950);
+  --color-surface: var(--color-ink-850);
+  --color-surface-raised: var(--color-ink-800);
+  --color-border: rgb(255 255 255 / 0.12);
+  --color-border-subtle: rgb(255 255 255 / 0.07);
+
+  /* Two foregrounds have to lighten with the surfaces, or the lift silently
+     breaks AA. Both were caught by axe against the real render, not assumed:
+
+       fg-subtle  #857d8d cleared 4.62:1 on ink-950 but only 3.79:1 once a card
+                  sat on the raised ink-800 surface. #948b9d is the midpoint of
+                  the existing ink-400/500 step and clears 4.59:1 there while
+                  staying a clear step below fg-muted (5.86:1), so the three
+                  level hierarchy survives.
+
+       accent-2   purple-400 landed at 4.45:1 on the raised surface — a real
+                  miss, not a rounding one. purple-300 clears 6.36:1.
+
+     Everything else in the palette was swept against all five surfaces in this
+     environment and passes unchanged. */
+  --color-fg-subtle: #948b9d;
+  --color-accent-2: var(--color-purple-300);
+}
+
+/* Expose the semantic layer to Tailwind so `bg-bg`, `text-fg-muted`,
+   `border-border` etc. resolve to the live variable and follow the theme. */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-subtle: var(--color-bg-subtle);
+  --color-bg-inset: var(--color-bg-inset);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-overlay: var(--color-surface-overlay);
+
+  --color-fg: var(--color-fg);
+  --color-fg-strong: var(--color-fg-strong);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-fg-subtle: var(--color-fg-subtle);
+  --color-fg-onbrand: var(--color-fg-onbrand);
+
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-brand: var(--color-border-brand);
+
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-accent-2: var(--color-accent-2);
+
+  --color-success: var(--color-success);
+  --color-danger: var(--color-danger);
+  --color-focus: var(--color-focus);
+
+  /* Creative Direction additions, exposed so `bg-surface-hover`,
+     `border-border-subtle`, `text-warning` and `text-info` resolve and follow
+     the theme like every other semantic colour. */
+  --color-surface-hover: var(--color-surface-hover);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-accent-strong: var(--color-accent-strong);
+  --color-warning: var(--color-warning);
+  --color-info: var(--color-info);
+}
+
+/* =============================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Anchor links must not land under the sticky header. */
+    scroll-padding-top: calc(var(--spacing-header) + 1.5rem);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Arabic sets slightly larger and looser: Arial's Arabic glyphs have a
+     smaller apparent x-height than its Latin ones, so matching the Latin size
+     literally would render Arabic visually smaller. */
+  html[lang="ar"] body {
+    font-family: var(--font-arabic);
+    font-size: 1.03em;
+    line-height: 1.75;
+  }
+
+  html[lang="ar"] h1,
+  html[lang="ar"] h2,
+  html[lang="ar"] h3 {
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-fg-strong);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, high-contrast focus for every interactive element. Uses
+     :focus-visible so pointer users never see a ring they didn't ask for. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-magenta-600);
+    color: #ffffff;
+  }
+
+  /* Never ship a horizontal scrollbar caused by decorative overflow. */
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  /* Numerals stay Latin in Arabic for phone numbers and years — mixing
+     Eastern Arabic numerals into a dialable tel: string confuses users. */
+  .numerals-latin {
+    font-feature-settings: "lnum";
+    unicode-bidi: plaintext;
+  }
+}
+
+/* =============================================================================
+   SCROLL REVEAL
+   -----------------------------------------------------------------------------
+   The default state is VISIBLE. The hidden-then-reveal behaviour applies only
+   under `.js`, a class added to <html> by the pre-paint bootstrap script.
+
+   This ordering matters: if the animation's starting state were the default,
+   every below-the-fold element would be served at zero opacity and would only
+   appear once JavaScript loaded and an observer fired. A blocked or failed
+   bundle would leave the visitor looking at an empty page. Scoping it behind
+   `.js` means no-JS renders show the full page, while JS renders still get the
+   animation with no flash — the class lands before the first paint.
+   ========================================================================== */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance, 16px));
+  will-change: opacity, transform;
+}
+
+.js [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+  /* Opacity and transform only — both stay on the compositor. */
+  transition:
+    opacity 0.55s var(--ease-brand),
+    transform 0.55s var(--ease-brand);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   REDUCED MOTION
+   -----------------------------------------------------------------------------
+   Honoured globally as a safety net. Individual components additionally check
+   the media query in JS so they render a meaningful static state rather than a
+   frozen half-animation.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   UTILITIES
+   ========================================================================== */
+
+/* The gutter, named once. `container-page` and `container-bleed` both read it,
+   so a full-bleed strip lines up with the text above it at every width instead
+   of drifting by a few pixels at one breakpoint and forty at another. */
+:root {
+  --container-gutter: 1.25rem;
+}
+@media (min-width: 640px) {
+  :root {
+    --container-gutter: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --container-gutter: 2.5rem;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+  max-width: 80rem;
+}
+
+/* A full-bleed horizontal strip whose first item starts on the container's
+   text edge and whose last item runs off the side of the viewport.
+
+   The inset is the container's own left offset: its auto margin — half the
+   space outside the 80rem measure — plus its gutter. Below 80rem the margin is
+   zero and `max()` falls back to the gutter alone. Padding rather than a margin
+   on the first child, so the same value also gives the last item breathing room
+   at the end of the scroll. */
+@utility container-bleed {
+  --container-bleed-inset: max(
+    var(--container-gutter),
+    calc((100vw - 80rem) / 2 + var(--container-gutter))
+  );
+
+  padding-inline: var(--container-bleed-inset);
+
+  /* scroll-padding has to match the padding, and this is not cosmetic.
+     A scroll snapport defaults to the padding box, whose start edge is at 0 —
+     so with `snap-mandatory` the browser immediately scrolls the strip by the
+     full inset to align the first item's snap edge with it, undoing the
+     alignment and starting the reader mid-plate. Moving the snapport in by the
+     same amount is what makes the first plate actually sit under the heading. */
+  scroll-padding-inline: var(--container-bleed-inset);
+}
+
+/* Brand gradient text, used sparingly — headline accents only. */
+@utility text-brand-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-magenta-500),
+    var(--color-purple-500)
+  );
+  background-clip: text;
+  color: transparent;
+  /* Fallback for the brief window before background-clip applies. */
+  -webkit-background-clip: text;
+}
+
+/* Faint engineering grid — reinforces the systems-integration character
+   without the noise of a decorative pattern. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility surface-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Screen-reader-only text that becomes visible on focus (skip link). */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+
+  &:focus,
+  &:focus-visible {
+    position: fixed;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+}
+
+/* Marquee for the partner/client logo rails. Pauses on hover and on focus
+   within, so keyboard users can reach the logos. */
+@keyframes marquee-start {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-start var(--marquee-duration, 44s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-viewport:hover .marquee-track,
+.marquee-viewport:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* RTL must reverse the travel direction, otherwise logos scroll "backwards"
+   relative to the reading direction. */
+[dir="rtl"] .marquee-track {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+  }
+}
+
+/* =============================================================================
+   ENVIRONMENT SURFACE TREATMENTS
+   -----------------------------------------------------------------------------
+   The two pieces that make a change of environment read as one continuous shot
+   rather than two stacked blocks: a seam that dissolves the leading edge, and
+   an atmosphere layer that gives a deep section a light source.
+   ========================================================================== */
+
+/* Seam — a soft dissolve at the boundary between two environments.
+
+   The seam is drawn as a pseudo-element pinned *entirely above* the section
+   (`inset-block-end: 100%`), so it overlays the last few rem of the section
+   before it and never occupies a single pixel of layout. That constraint is the
+   whole design: an earlier version pulled the section up with a negative margin
+   and paid the height back as padding, which double-applied against the
+   spacing utility and opened a ~200px hole above the heading. Nothing here can
+   do that — the section stays exactly where the normal flow puts it.
+
+   The gradient runs transparent → the incoming section's own background, so the
+   outgoing section shows through the top of it and the two dissolve into each
+   other. `--seam-color` is bound from the tone below rather than hard-coded, so
+   one rule covers every theme and environment combination.
+
+   Painting order is DOM order: the seamed section comes after the one it
+   overlays, and both carry `isolate`, so the seam always lands on top. */
+[data-seam]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 100%;
+  block-size: var(--seam-height, 6rem);
+  background-image: linear-gradient(to bottom, transparent, var(--seam-color, var(--color-bg)));
+  pointer-events: none;
+}
+
+[data-seam][data-tone="default"] {
+  --seam-color: var(--color-bg);
+}
+[data-seam][data-tone="subtle"] {
+  --seam-color: var(--color-bg-subtle);
+}
+[data-seam][data-tone="inset"] {
+  --seam-color: var(--color-bg-inset);
+}
+
+@media (max-width: 47.999rem) {
+  [data-seam] {
+    --seam-height: 4rem;
+  }
+}
+
+/* Atmosphere — the light source inside a deep section.
+
+   Two overlaid radial gradients rather than one: a single gradient reads as a
+   flat vignette, while a magenta core offset against a wider purple wash reads
+   as light falling through a space. Both come from the existing --glow tokens,
+   so the amount of brand colour on screen stays inside the 6–8% budget set in
+   docs/creative-direction.md. */
+/* The clipping frame. The glow is deliberately larger than the section — that
+   is what makes it read as light spilling in rather than as a circle drawn on
+   the page — so something has to contain it, or it extends the document's
+   scroll width. It cannot be the section itself: `overflow: hidden` there would
+   also clip the seam, which is positioned *outside* the section box by design.
+   So the frame is its own element, exactly the size of the section. */
+.section-atmosphere-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.section-atmosphere {
+  position: absolute;
+  inset-block-start: var(--atmos-y, 0%);
+  inset-inline-start: var(--atmos-x, 50%);
+  inline-size: var(--atmos-size, min(70rem, 120%));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  opacity: var(--atmos-intensity, 1);
+  background:
+    radial-gradient(
+      closest-side,
+      var(--glow-1) 0%,
+      color-mix(in oklab, var(--glow-1) 30%, transparent) 42%,
+      transparent 72%
+    ),
+    radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--glow-2) 70%, transparent) 0%,
+      transparent 78%
+    );
+  /* A raw radial gradient bands badly on large soft fades in 8-bit sRGB. A
+     blur costs nothing here (no repaint — the layer never moves) and removes
+     the rings entirely. */
+  filter: blur(2px);
+}
+
+/* RTL: --atmos-x is authored as a distance from the inline start, and
+   inset-inline-start already flips, so nothing further is needed. The
+   translate, however, is a physical transform and must mirror. */
+[dir="rtl"] .section-atmosphere {
+  translate: 50% -50%;
+}
+
+/* =============================================================================
+   ARABIC: NO LETTER-SPACING, ANYWHERE
+   -----------------------------------------------------------------------------
+   Arabic is a cursive script — letters join. Applying letter-spacing pulls
+   those joins apart and renders a word as a row of disconnected glyphs, which
+   is not a stylistic preference but a legibility failure.
+
+   The "specification layer" (eyebrows, meta labels, the hero brand line) gets
+   its character from wide tracking in Latin. In Arabic it has to get that
+   character from weight and colour alone, so the tracking is removed rather
+   than reduced.
+
+   Deliberately unlayered: Tailwind's utilities live in `@layer utilities`, and
+   an unlayered rule outranks any layered one regardless of specificity. That
+   means a `tracking-[…]` utility anywhere in the tree cannot reintroduce the
+   problem, including in components not yet written.
+
+   `:not([lang="en"])` leaves genuinely Latin runs inside an Arabic page — a
+   product name, a Latin numeral group — with their intended tracking.
+   ========================================================================== */
+html[lang="ar"] *:not([lang="en"]) {
+  letter-spacing: 0;
+}
+
+/* Leading, for the same reason and by the same mechanism.
+
+   Arabic sets tall: the script stacks marks above and below the baseline, so a
+   display line-height tuned for Latin (0.95 on --text-display-1) collides the
+   ascenders of one line with the descenders of the one above it. There has been
+   a `line-height: 1.4` rule for Arabic headings in @layer base all along — it
+   was simply losing to Tailwind's `text-display-1` / `text-h1` utilities, which
+   set line-height as part of the same declaration. Unlayered, it wins.
+
+   1.22 rather than 1.4 at display sizes: 1.4 is right for a heading at 32px and
+   far too airy at 92px, where the line box is already generous in absolute
+   terms. Body copy keeps the looser 1.75 set on html[lang="ar"] body. */
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3 {
+  line-height: 1.22;
+}
+/* A horizontal strip that scrolls without advertising it. The scrollbar sits
+   across the bottom of a full-bleed dark plate where it reads as a rule rather
+   than a control; the affordance is carried instead by the last plate running
+   off the edge of the viewport. The container is focusable and labelled, so
+   removing the visual scrollbar takes nothing away from keyboard users. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* =============================================================================
+   CINEMATIC OPENING
+   -----------------------------------------------------------------------------
+   A title card that resolves into the hero. Driven entirely by CSS: the only
+   thing JavaScript does is decide whether it runs at all, by setting
+   `data-opening="on"` before first paint (see openingBootstrapScript).
+
+   The consequence of that split is the property worth protecting — every step
+   below ends in a state that removes the overlay, via `forwards` fill. Nothing
+   has to run afterwards to clean up, so a blocked or broken bundle cannot leave
+   a visitor staring at a curtain. Default is `display: none`, so no-JS visitors
+   never see it either.
+
+   Total duration is 1.4s. It covers the viewport for that time, which does cost
+   Largest Contentful Paint on a first visit, and 1.4s is the number that buys a
+   composed entrance without the page feeling withheld. It plays once per
+   session, so the cost is paid once.
+   ========================================================================== */
+
+.opening {
+  display: none;
+}
+
+:root[data-opening="on"] .opening {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  place-items: center;
+  /* Above the header (z-50) and the skip link (z-100) — while the card is up
+     it is the only thing on screen. */
+  z-index: 200;
+  background-color: var(--color-bg);
+  animation: opening-dissolve 1.4s var(--ease-brand) forwards;
+}
+
+.opening-card {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  padding-inline: var(--container-gutter);
+}
+
+.opening-rule {
+  inline-size: 4.5rem;
+  block-size: 1px;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+  transform-origin: center;
+  animation: opening-rule 620ms var(--ease-brand) both;
+}
+
+.opening-word {
+  font-size: var(--text-brandline);
+  font-weight: var(--text-brandline--font-weight);
+  letter-spacing: var(--text-brandline--letter-spacing);
+  line-height: var(--text-brandline--line-height);
+  text-transform: uppercase;
+  color: var(--color-fg-strong);
+  animation: opening-word 560ms var(--ease-brand) 160ms both;
+}
+
+/* Arabic is cursive — the global unlayered rule already zeroes tracking for the
+   whole Arabic document, and it outranks this because that rule is unlayered
+   and specific to html[lang="ar"]. Stated here only so the next reader does not
+   "fix" the missing tracking.
+
+   The size does need adjusting, for the reason already recorded for body copy:
+   this font stack's Arabic glyphs have a smaller apparent x-height than its
+   Latin ones, so matching 14px literally renders the Arabic card visibly
+   slighter than the English one. Rendered side by side, 1.15em restores parity
+   — and without the Latin tracking there is no width to reclaim either. */
+html[lang="ar"] .opening-word {
+  font-size: calc(var(--text-brandline) * 1.15);
+}
+
+@keyframes opening-rule {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes opening-word {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes opening-dissolve {
+  0%,
+  64% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    /* visibility, not just opacity: a fully transparent fixed layer still
+       swallows every click on the hero beneath it. */
+    visibility: hidden;
+  }
+}
+
+/* Belt and braces. The bootstrap script already declines to set the attribute
+   under reduced motion, but if the attribute ever arrives by another route —
+   a restored session, a future entry point — this makes the overlay inert
+   rather than a permanently frozen curtain. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-opening="on"] .opening {
+    display: none;
+  }
+}

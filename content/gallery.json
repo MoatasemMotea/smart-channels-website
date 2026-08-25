@@ -1,0 +1,93 @@
+{
+  "$schema": "./gallery.schema.json",
+  "_readme": [
+    "Smart Channels gallery manifest.",
+    "",
+    "This file is CONTENT, not source code. Adding, editing, reordering or",
+    "unpublishing a photograph is done here and nowhere else — no file under",
+    "src/ needs to change, and the grid, lightbox, filters and ordering all",
+    "adapt to whatever this file contains.",
+    "",
+    "TO ADD A PHOTOGRAPH",
+    "  1. Drop the original (any size, JPG or PNG) in source-assets/gallery/",
+    "  2. npm run gallery:ingest",
+    "     - converts it to WebP at several widths under public/images/gallery/",
+    "     - measures it and appends a stub entry to the items array below",
+    "  3. Fill in the stub: category, technology, captions in both languages,",
+    "     alt text in both languages, and any of project / industry /",
+    "     location / date that apply.",
+    "  4. Set \"published\": true",
+    "",
+    "Nothing appears on the site until published is true. A stub left half",
+    "filled is safe to commit.",
+    "",
+    "ORDERING  sortOrder ascending, then date descending, then id.",
+    "FEATURED  featured: true promotes an item to the homepage preview.",
+    "",
+    "The allowed values for category and technology are the unions in",
+    "src/types/content.ts; the ingest script and the build both reject",
+    "anything else rather than silently dropping it.",
+    "",
+    "THE TWO ENTRIES BELOW ARE A WORKED EXAMPLE, NOT PUBLISHED CONTENT.",
+    "They show exactly what a complete entry looks like — every field filled,",
+    "captions and alt text in both languages. Both are published: false and",
+    "therefore render nowhere, because the provenance of the supplied",
+    "photographs has not been confirmed: some are Smart Channels' own delivery",
+    "work and some are stock or vendor imagery, and a caption on a gallery tile",
+    "is a factual claim about work delivered. Set published: true only for",
+    "photographs confirmed as Smart Channels' own."
+  ],
+  "status": "pending",
+  "pendingNote": "Awaiting confirmation of which photographs are Smart Channels' own delivery work.",
+  "items": [
+    {
+      "id": "riyadh-network-closet",
+      "image": {
+        "src": "/images/gallery/riyadh-network-closet.webp",
+        "width": 1600,
+        "height": 1200,
+        "alt": {
+          "en": "A wall-mounted network cabinet with patch panels, colour-coded patch leads and vertical cable management bars.",
+          "ar": "خزانة شبكة مثبّتة على الحائط تضم لوحات توصيل وأسلاك ملوّنة وقضبان تنظيم كابلات رأسية."
+        },
+        "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQAgCdASoQAAwAA4BaJaACdAEXoKWWH7/QAP7JQz/EdnTvd23S8GlL+wb9qlnFz9WzZMiPgqqU7o2R4/O1XUn40H6ANSolzE54gbYouHgORwVBaOrLVQqkD/sOhAAA"
+      },
+      "category": "infrastructure",
+      "technology": [
+        "structured-cabling",
+        "fibre-optics"
+      ],
+      "caption": {
+        "en": "Patch panels and cable management in a completed network closet.",
+        "ar": "لوحات توصيل وتنظيم كابلات في غرفة شبكة مكتملة."
+      },
+      "featured": false,
+      "sortOrder": 10,
+      "published": false
+    },
+    {
+      "id": "structured-cabling-run",
+      "image": {
+        "src": "/images/gallery/structured-cabling-run.webp",
+        "width": 1600,
+        "height": 1067,
+        "alt": {
+          "en": "A dense bundle of network cables routed along a tray, dressed straight and individually labelled.",
+          "ar": "حزمة كثيفة من كابلات الشبكة موجّهة على حامل، مرتّبة ومعنونة فرديًا."
+        },
+        "blurDataURL": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAACQAQCdASoQAAsAA4BaJYwAAhWI/VgA/vSTCltROyLdi5+6WOVkz2xyr95qaZALXvnDquVLfGzs3yvq+ZZ9NZCo9HC+NKhFs9Dg6+nFiDGKOsfjABzwITkcAJAAAA=="
+      },
+      "category": "networks",
+      "technology": [
+        "structured-cabling"
+      ],
+      "caption": {
+        "en": "A structured cabling run dressed and labelled before termination.",
+        "ar": "مسار كابلات مهيكلة مُرتَّب ومُعنون قبل الإنهاء."
+      },
+      "featured": false,
+      "sortOrder": 20,
+      "published": false
+    }
+  ]
+}
