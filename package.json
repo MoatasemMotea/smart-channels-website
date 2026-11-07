@@ -11,8 +11,9 @@
     "typecheck": "tsc --noEmit",
     "assets:photos": "node scripts/optimize-images.mjs",
     "assets:industries": "node scripts/generate-industry-art.mjs",
+    "assets:hero": "node scripts/generate-hero-earth.mjs",
     "gallery:ingest": "node scripts/gallery-ingest.mjs",
-    "assets": "npm run assets:industries && npm run assets:photos",
+    "assets": "npm run assets:industries && npm run assets:hero && npm run assets:photos",
     "check:no-public-pdfs": "node scripts/check-no-public-pdfs.mjs",
     "check:retired-figures": "node scripts/check-retired-figures.mjs",
     "check": "npm run check:no-public-pdfs && npm run check:retired-figures && npm run typecheck && npm run lint && npm run build"
@@ -33,12 +34,15 @@
     "@types/node": "^22.15.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "d3-geo": "^3.1.2",
     "eslint": "^9.27.0",
     "eslint-config-next": "^16.3.1",
     "playwright": "^1.62.1",
     "sharp": "^0.35.3",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "topojson-client": "^3.1.0",
+    "typescript": "^5.9.3",
+    "world-atlas": "^2.0.2"
   },
   "engines": {
     "node": ">=20.9.0"
