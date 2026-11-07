@@ -8,7 +8,8 @@
  *   projection, front hemisphere only. Land and ocean points are styled per
  *   §8.3, with lambert falloff toward the limb carrying depth.
  * - Riyadh as the ONLY surface point and the only geographic reference (L-03).
- * - Three flattened orbital rings carrying the six capability nodes (L-05).
+ * - Three flattened orbital rings carrying six nodes — Smart Channels' core
+ *   services (client brief, 2026-11-07; supersedes the L-05 labels).
  *   A node's only coordinates are "which ring" and "where on it" — there is no
  *   latitude or longitude anywhere in the capability model (L-04).
  * - A downlink from every node to the Earth, with a packet on three of them
@@ -36,10 +37,13 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = path.join(ROOT, "public", "images", "hero");
 
 /* ---- Frame ------------------------------------------------------------- */
-const W = 1600;
+// W, CX and SIDE vary per output (see `frame()` below); H, CY and R do not.
+let W = 1600;
 const H = 1200;
-const CX = 800;
+let CX = 800;
 const CY = 610;
+/** +1: services stacked on the right (LTR). −1: mirrored for RTL. */
+let SIDE = 1;
 const R = 410;
 
 /* ---- Palette (globals.css / creative-direction.md §3) ------------------ */
@@ -56,11 +60,18 @@ const INK = "#0e0c11";
 const POINTS = 9000;
 // Arabian peninsula on the centre meridian of the visible disc (§8.3),
 // tilted so the northern hemisphere — where the region sits — faces the eye.
-const projection = geoOrthographic()
-  .rotate([-46, -18, 0])
-  .scale(R)
-  .translate([CX, CY])
-  .clipAngle(90);
+let projection;
+
+function frame(width, cx, side) {
+  W = width;
+  CX = cx;
+  SIDE = side;
+  projection = geoOrthographic()
+    .rotate([-46, -18, 0])
+    .scale(R)
+    .translate([CX, CY])
+    .clipAngle(90);
+}
 
 const land = feature(land110, land110.objects.land);
 
@@ -69,6 +80,8 @@ const LIGHT = normalise([-0.45, -0.55, 0.7]);
 
 const r3 = (n) => Math.round(n * 10) / 10;
 const a2 = (n) => Math.round(n * 1000) / 1000;
+
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
 function normalise([x, y, z]) {
   const m = Math.hypot(x, y, z);
@@ -119,22 +132,27 @@ function onRing(i, t) {
   const ry = rx * FLAT;
   const ex = rx * Math.cos(t);
   const ey = ry * Math.sin(t);
-  const c = Math.cos((incl * Math.PI) / 180);
-  const s = Math.sin((incl * Math.PI) / 180);
-  return { x: CX + ex * c - ey * s, y: CY + ex * s + ey * c, near: Math.sin(t) > 0 };
+  // RTL mirrors the whole orbital system, tilt included, so the nodes stay
+  // on their rings rather than being flipped off them.
+  const c = Math.cos((incl * SIDE * Math.PI) / 180);
+  const s = Math.sin((incl * SIDE * Math.PI) / 180);
+  const mx = ex * SIDE;
+  return { x: CX + mx * c - ey * s, y: CY + mx * s + ey * c, near: Math.sin(t) > 0 };
 }
 
-/* Phases chosen so no node is occluded at rest or sits over the disc, the two
-   per ring sit on opposite sides of the Earth, and every label clears its
-   neighbour by ≥ 45 units vertically. */
+/* The six core services, as confirmed by the client (2026-11-07). Each label
+   is set on two lines so the stack stays narrow enough to clear the reading
+   column. Phases were solved numerically: two nodes per ring, all on the
+   outward side, none occluded at rest, minimum spacing between nodes
+   maximised (≈ 93 units). */
 const deg = (d) => (d * Math.PI) / 180;
 const NODES = [
-  { id: "infrastructure", ring: 2, t: deg(208), en: "Infrastructure", ar: "البنية التحتية" },
-  { id: "network", ring: 2, t: deg(-10), en: "Network", ar: "الشبكات" },
-  { id: "cloud", ring: 1, t: deg(186), en: "Cloud", ar: "الحوسبة السحابية" },
-  { id: "communication", ring: 1, t: deg(28), en: "Communication", ar: "الاتصالات" },
-  { id: "security", ring: 0, t: deg(168), en: "Security", ar: "الأمن" },
-  { id: "smart", ring: 0, t: deg(4), en: "Smart Technology", ar: "التقنيات الذكية" },
+  { id: "networks", ring: 1, t: deg(-30), en: ["Networks &", "Data Centres"], ar: ["الشبكات", "ومراكز البيانات"] },
+  { id: "cyber", ring: 1, t: deg(-2), en: ["Cyber", "Security"], ar: ["الأمن", "السيبراني"] },
+  { id: "cctv", ring: 0, t: deg(28), en: ["CCTV", "Surveillance"], ar: ["كاميرات", "المراقبة"] },
+  { id: "radio", ring: 0, t: deg(48), en: ["Two-Way", "Radio"], ar: ["أجهزة", "الراديو"] },
+  { id: "access", ring: 2, t: deg(24), en: ["Access Control &", "Smart Buildings"], ar: ["أنظمة الدخول", "والمباني الذكية"] },
+  { id: "events", ring: 2, t: deg(46), en: ["Event Screens", "& AV Systems"], ar: ["شاشات وتجهيزات", "الفعاليات"] },
 ];
 
 const RIYADH = { lonLat: [46.68, 24.71], en: "Riyadh", ar: "الرياض" };
@@ -275,33 +293,38 @@ function build(locale) {
       );
     });
 
-  // Labels (§8.5): outward from the Earth, Riyadh never dropped.
+  // Labels (§8.5): a stacked column on the outward side, each joined to its
+  // node by a hairline leader. Riyadh's label sits beside its point.
   if (locale) {
     const font = isAr
-      ? `font-family="Arial, 'Noto Sans Arabic', sans-serif" font-size="31" font-weight="700"`
-      : `font-family="ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" font-weight="700" letter-spacing="4"`;
-    // A dark halo behind the glyphs keeps labels legible over land points.
-    out.push(`<g ${font} stroke="${INK}" stroke-width="7" stroke-linejoin="round" paint-order="stroke">`);
-    for (const n of nodes) {
-      const label = isAr ? n.ar : n.en.toUpperCase();
-      const op = n.near ? 0.92 : 0.6;
-      const dir = isAr ? ' direction="rtl"' : "";
-      if (Math.abs(n.x - CX) < R) {
-        // In front of the Earth: set beneath the node so it never sits on
-        // the Riyadh side of the disc.
-        out.push(
-          `<text x="${r3(n.x)}" y="${r3(n.y + 50)}" text-anchor="middle" fill="#ffffff" fill-opacity="${op}"${dir}>${label}</text>`,
-        );
-        continue;
-      }
-      const right = n.x > CX;
-      const x = n.x + (right ? 26 : -26);
-      // In an RTL run "start" is the right-hand edge, so the anchors swap.
-      const anchor = right !== isAr ? "start" : "end";
+      ? `font-family="Arial, 'Noto Sans Arabic', sans-serif" font-size="35" font-weight="700"`
+      : `font-family="ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="28" font-weight="700" letter-spacing="3"`;
+    const LX = CX + SIDE * 610; // column edge, just past the outer ring
+    const ROWS = [-240, -144, -48, 48, 144, 240];
+    const sorted = [...nodes].sort((a, b) => a.y - b.y);
+    const anchor = SIDE > 0 !== isAr ? "start" : "end";
+
+    out.push(`<g fill="none" stroke="${PURPLE_LIT}" stroke-opacity="0.45" stroke-width="1.2">`);
+    sorted.forEach((n, i) => {
+      const ry = CY + ROWS[i];
+      const elbow = LX - SIDE * 64;
       out.push(
-        `<text x="${r3(x)}" y="${r3(n.y + 8)}" text-anchor="${anchor}" fill="#ece9ef" fill-opacity="${op}"${dir}>${label}</text>`,
+        `<path d="M${r3(n.x + SIDE * 12)} ${r3(n.y)}H${r3(elbow)}L${r3(LX - SIDE * 18)} ${r3(ry)}"/>`,
       );
-    }
+    });
+    out.push(`</g>`);
+
+    out.push(`<g ${font} stroke="${INK}" stroke-width="7" stroke-linejoin="round" paint-order="stroke">`);
+    sorted.forEach((n, i) => {
+      const ry = CY + ROWS[i];
+      const [l1, l2] = (isAr ? n.ar : n.en.map((t) => t.toUpperCase())).map(esc);
+      const dir = isAr ? ' direction="rtl"' : "";
+      out.push(
+        `<circle cx="${r3(LX - SIDE * 18)}" cy="${r3(ry)}" r="3" fill="${BRAND_LIT}" stroke="none"/>`,
+        `<text x="${r3(LX)}" y="${r3(ry - 6)}" text-anchor="${anchor}" fill="#ffffff"${dir}>${l1}</text>`,
+        `<text x="${r3(LX)}" y="${r3(ry + (isAr ? 34 : 29))}" text-anchor="${anchor}" fill="#c9c2d0"${dir}>${l2}</text>`,
+      );
+    });
     const rLabel = isAr ? RIYADH.ar : RIYADH.en.toUpperCase();
     out.push(
       `<text x="${r3(rx + 28)}" y="${r3(ry - 22)}" fill="#ffffff" text-anchor="start"${isAr ? ' direction="ltr"' : ""}>${rLabel}</text>`,
@@ -314,11 +337,14 @@ function build(locale) {
 }
 
 await mkdir(OUT_DIR, { recursive: true });
-for (const [name, locale] of [
-  ["connected-earth.svg", null],
-  ["connected-earth-en.svg", "en"],
-  ["connected-earth-ar.svg", "ar"],
+for (const [name, locale, width, cx, side] of [
+  // Mobile horizon: centred, no labels, 1600 × 1200 (Hero.tsx relies on this).
+  ["connected-earth.svg", null, 1600, 800, 1],
+  // Desktop: the Earth sits toward the type, the service column outward.
+  ["connected-earth-en.svg", "en", 1700, 620, 1],
+  ["connected-earth-ar.svg", "ar", 1700, 1080, -1],
 ]) {
+  frame(width, cx, side);
   const svg = build(locale);
   await writeFile(path.join(OUT_DIR, name), svg);
   console.log(`  ${name}  ${(svg.length / 1024).toFixed(1)} KB`);

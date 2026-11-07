@@ -44,11 +44,14 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
 
         {/* --- Connected Earth (creative-direction.md §8) ---
             A generated still: dotted Earth, Riyadh as the only surface point,
-            and the six capability nodes on their orbits. See
+            and Smart Channels' six core services on its orbits — networks &
+            data centres, cybersecurity, CCTV, two-way radio, access control &
+            smart buildings, event screens & AV. See
             scripts/generate-hero-earth.mjs.
 
-            Desktop: beside the type, on the end side, sized so no capability
-            label crosses into the reading column (≤ 52% of the frame).
+            Desktop: beside the type, on the end side, the Earth toward the
+            text and the service column at the outer edge, sized so nothing
+            crosses into the reading column (≤ 52% of the frame).
             Below xl (1280px): the label-free version drops to the foot of the hero as
             an oversized, cropped horizon (§8.1) — a shrunken globe beside the
             headline would lose all of its surface detail — and under 1280px
@@ -61,11 +64,13 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           <source
             media="(max-width: 1279.98px)"
             srcSet="/images/hero/connected-earth.svg"
+            width={1600}
+            height={1200}
           />
           <img
             src={`/images/hero/connected-earth-${locale}.svg`}
             alt=""
-            width={1600}
+            width={1700}
             height={1200}
             decoding="async"
             fetchPriority="low"
@@ -78,7 +83,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                  dots stay fine-grained. */
               "sm:bottom-[calc(290px-125vw)] sm:w-[200vw] " +
               /* Beside the type. */
-              "xl:start-auto xl:end-0 xl:top-1/2 xl:bottom-auto xl:w-[min(52vw,60rem)] " +
+              "xl:start-auto xl:end-0 xl:top-1/2 xl:bottom-auto xl:w-[min(56vw,66rem)] " +
               "xl:-translate-y-[47.5%] xl:translate-x-0 rtl:xl:translate-x-0"
             }
           />

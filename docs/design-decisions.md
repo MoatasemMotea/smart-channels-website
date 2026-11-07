@@ -21,7 +21,7 @@ Confirmed by the client. Not to be reopened without an explicit instruction.
 | L-02 | The capability orbital system is **conceptual and abstract**. It must never become a geographic map. | Hero corrections round |
 | L-03 | **Riyadh is the sole surface/location point** in the hero | Hero corrections round |
 | L-04 | Capability nodes hold **no latitude or longitude** — only *which ring* and *where on it*. The guarantee is structural, not editorial. | Implementation of L-02 |
-| L-05 | The six capability labels are **Infrastructure · Network · Security · Communication · Cloud · Smart Technology** | Hero corrections round |
+| L-05 | ~~The six capability labels are Infrastructure · Network · Security · Communication · Cloud · Smart Technology~~ — **superseded 2026-11-07:** the six orbital nodes are the core services: **Networks & Data Centres · Cybersecurity · CCTV Surveillance · Two-Way Radio · Access Control & Smart Buildings · Event Screens & AV** | Client instruction, 2026-11-07 |
 | L-06 | Concept B's capability labels and Concept C's orbital discipline are carried into Concept A | Visual direction approval |
 
 ### 1.2 Typography and brand
