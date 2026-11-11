@@ -433,7 +433,7 @@ the headline loses every piece of surface detail that makes it worth drawing.
 
 - Three rings at `R × 1.08`, `1.18`, `1.28`; flattening `0.32`; inclinations `−13°`, `−7°`, `−1°`.
 - Drawn with `ctx.ellipse()`. Never `scale()` + `arc()` — scaling the context before stroking shears the ring into a near-circle and thins the stroke anisotropically.
-- Six capability nodes ride the rings: **Infrastructure · Network · Security · Communication · Cloud · Smart Technology**.
+- Six service nodes ride the rings: **Networks & Data Centres · Cybersecurity · CCTV Surveillance · Two-Way Radio · Access Control & Smart Buildings · Event Screens & AV** (updated 2026-11-07, see L-05). On the static artwork their labels stack in a column on the outward side, joined to each node by a hairline leader.
 - A node's only coordinates are *which ring* and *where on it*. There is no latitude or longitude anywhere in the capability model. This is what makes the guarantee structural rather than editorial.
 - Each node draws a downlink to the Earth's rim and sends packets along it.
 - Nodes on the far side of an orbit dim to 0.45; nodes actually behind the Earth are occluded entirely and drop their label.

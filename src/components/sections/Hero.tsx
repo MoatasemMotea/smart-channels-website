@@ -40,7 +40,58 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             with the section that follows. */}
         <div className="absolute inset-0 bg-grid [mask-image:linear-gradient(to_bottom,black_10%,transparent_92%)]" />
 
-        <NetworkCanvas className="absolute inset-0 size-full opacity-70" />
+        <NetworkCanvas className="absolute inset-0 size-full opacity-40" />
+
+        {/* --- Connected Earth (creative-direction.md §8) ---
+            A generated still: dotted Earth, Riyadh as the only surface point,
+            and Smart Channels' six core services on its orbits — networks &
+            data centres, cybersecurity, CCTV, two-way radio, access control &
+            smart buildings, event screens & AV. See
+            scripts/generate-hero-earth.mjs.
+
+            Desktop: beside the type, on the end side, the Earth toward the
+            text and the service column at the outer edge, sized so nothing
+            crosses into the reading column (≤ 52% of the frame).
+            Below xl (1280px): the label-free version drops to the foot of the hero as
+            an oversized, cropped horizon (§8.1) — a shrunken globe beside the
+            headline would lose all of its surface detail — and under 1280px
+            a 46% type column is too narrow for the CTAs and fact strip.
+
+            <picture> rather than two <img>s: a hidden <img> still downloads,
+            a non-matching <source> does not. Decorative — the H1 and body
+            carry the meaning — so the alt is empty. */}
+        <picture>
+          <source
+            media="(max-width: 1279.98px)"
+            srcSet="/images/hero/connected-earth.svg"
+            width={1600}
+            height={1200}
+          />
+          <img
+            src={`/images/hero/connected-earth-${locale}.svg`}
+            alt=""
+            width={1700}
+            height={1200}
+            decoding="async"
+            fetchPriority="low"
+            className={
+              "pointer-events-none absolute max-w-none select-none " +
+              /* Horizon: globe radius ≈ 0.72 × viewport width, its crown
+                 sitting ~40px into a 330px band at the foot of the hero. */
+              "start-1/2 bottom-[calc(290px-175vw)] w-[280vw] -translate-x-1/2 rtl:translate-x-1/2 " +
+              /* Wider screens keep the horizon but at a gentler curve, so the
+                 dots stay fine-grained. */
+              "sm:bottom-[calc(290px-125vw)] sm:w-[200vw] " +
+              /* Beside the type. */
+              "xl:start-auto xl:end-0 xl:top-1/2 xl:bottom-auto xl:w-[min(56vw,66rem)] " +
+              "xl:-translate-y-[47.5%] xl:translate-x-0 rtl:xl:translate-x-0"
+            }
+          />
+        </picture>
+
+        {/* Reading protection: the ground colour holds behind the type and
+            releases by 52% of the frame (§8.1). */}
+        <div className="absolute inset-0 hidden bg-linear-to-r from-bg via-bg/70 via-30% to-transparent to-52% xl:block rtl:bg-linear-to-l" />
 
         {/* Brand glow, positioned on the side the eye reaches last so it frames
             the type instead of sitting behind it. */}
@@ -64,8 +115,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       </div>
 
       <div className="container-page">
-        <div className="flex min-h-[min(88svh,50rem)] flex-col justify-center py-24 sm:py-28 lg:py-32">
-          <div className="max-w-4xl">
+        {/* Below xl the bottom padding is the 330px horizon band the globe
+            rises into; at xl the type column is held to ≤ 46% of the frame. */}
+        <div className="flex min-h-[min(88svh,50rem)] flex-col justify-center pt-24 pb-[330px] sm:pt-28 lg:pt-32 xl:min-h-[min(100svh,55rem)] xl:py-32">
+          <div className="max-w-4xl xl:max-w-[46%]">
             {/* --- Brand ---
                 A tracked wordmark on a hairline rule, not a pill badge. The
                 badge form this replaces reads as a generic SaaS "announcement"
